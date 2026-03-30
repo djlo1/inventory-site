@@ -5,308 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inventory — Gestion des publications</title>
 <meta name="description" content="Simplifiez la gestion de vos publications. Stock, inventaire, commandes, multi-utilisateurs — tout dans une seule application.">
-<meta name="theme-color" content="#0B1929">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0F172A">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --navy:#0B1929;--navy2:#132238;--navy3:#1B2D4F;
-  --gold:#C8941A;--gold2:#E0AD3A;--goldSoft:rgba(200,148,26,.12);
-  --bg:#F5F3EE;--text:#E8E4DD;--muted:#7A8BA5;
-  --ok:#2A9D5C;--warn:#E07B39;--danger:#C0392B;
-  --card:rgba(255,255,255,.04);
-}
-html{scroll-behavior:smooth;}
-body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.025;}
-
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--slate:#0F172A;--slate2:#1E293B;--slate3:#334155;--amber:#F59E0B;--amber2:#EAB308;--amberSoft:rgba(245,158,11,.1);--bg:#FAFAF9;--text:#F8FAFC;--muted:#94A3B8;--ok:#059669;--card:rgba(255,255,255,.04)}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--slate);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.02}
+::selection{background:var(--amber);color:#fff}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.fade-up{animation:fadeUp .8s ease both;}
-.fade-up-d1{animation:fadeUp .8s ease .15s both;}
-.fade-up-d2{animation:fadeUp .8s ease .3s both;}
-.fade-up-d3{animation:fadeUp .8s ease .45s both;}
-
-.container{max-width:1080px;margin:0 auto;padding:0 24px;}
-section{padding:80px 0;}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;}
-.orb-gold{background:var(--gold);width:300px;height:300px;opacity:.06;}
-.orb-blue{background:#3B82F6;width:250px;height:250px;opacity:.04;}
-
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding-top:40px;}
-.hero .orb-gold{top:-60px;right:-100px;}
-.hero .orb-blue{bottom:10%;left:-80px;}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1;}
-.hero-content{max-width:520px;}
-.hero-badge{display:inline-block;padding:6px 14px;border-radius:20px;background:var(--goldSoft);border:1px solid rgba(200,148,26,.2);color:var(--gold);font-size:.7rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;}
-.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:20px;letter-spacing:-.02em;}
-.hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hero p{font-size:1.05rem;line-height:1.7;color:var(--muted);margin-bottom:36px;font-weight:300;}
-.hero-buttons{display:flex;gap:14px;flex-wrap:wrap;}
-
-.phone-wrap{display:flex;justify-content:center;animation:float 5s ease-in-out infinite;}
-.phone{width:260px;height:520px;border-radius:36px;background:var(--navy2);border:2px solid rgba(255,255,255,.08);box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 60px rgba(200,148,26,.08);overflow:hidden;position:relative;}
-.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:80px;height:22px;background:var(--navy);border-radius:12px;z-index:3;}
-.phone-screen{position:absolute;inset:8px;border-radius:30px;overflow:hidden;background:var(--bg);}
-.phone-ui{padding:36px 14px 14px;height:100%;overflow:hidden;font-family:'Outfit',sans-serif;}
-.phone-ui .ph-header{font-size:7px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
-.phone-ui .ph-title{font-size:14px;font-weight:800;color:var(--navy3);margin-bottom:4px;}
-.phone-ui .ph-sub{font-size:8px;color:var(--muted);margin-bottom:12px;}
-.phone-ui .ph-stats{display:flex;gap:5px;margin-bottom:10px;}
-.phone-ui .ph-stat{flex:1;background:#fff;border-radius:7px;padding:7px 6px;border:1px solid #E8E5DF;}
-.phone-ui .ph-stat-label{font-size:6.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;}
-.phone-ui .ph-stat-val{font-size:16px;font-weight:700;line-height:1;}
-.phone-ui .ph-alert{background:#FFF4EE;border:1px solid rgba(224,123,57,.2);border-radius:7px;padding:6px 8px;margin-bottom:5px;display:flex;align-items:center;gap:6px;}
-.phone-ui .ph-alert-dot{width:5px;height:5px;border-radius:50%;}
-.phone-ui .ph-alert-text{font-size:8px;color:#1C1C2E;font-weight:500;flex:1;}
-.phone-ui .ph-alert-val{font-size:10px;font-weight:700;}
-.phone-ui .ph-nav{position:absolute;bottom:8px;left:8px;right:8px;background:#fff;border-radius:0 0 22px 22px;display:flex;padding:6px 0;border-top:1px solid #E8E5DF;}
-.phone-ui .ph-nav-item{flex:1;text-align:center;font-size:11px;color:var(--muted);}
-.phone-ui .ph-nav-item.active{color:var(--navy3);}
-
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .25s ease;position:relative;overflow:hidden;}
-.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);box-shadow:0 4px 20px rgba(200,148,26,.3);}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(200,148,26,.4);}
-.btn-secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px);}
-.btn-secondary:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);}
-.btn-icon{width:20px;height:20px;}
-
-/* FEATURES */
-.features{background:var(--navy2);position:relative;}
-.features .orb-gold{bottom:-100px;left:-60px;}
-.section-label{font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;margin-bottom:16px;line-height:1.2;}
-.section-desc{color:var(--muted);font-size:1rem;line-height:1.7;max-width:540px;font-weight:300;}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;}
-.feature-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px 24px;transition:all .3s ease;}
-.feature-card:hover{background:rgba(255,255,255,.06);border-color:rgba(200,148,26,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.2);}
-.feature-icon{width:44px;height:44px;border-radius:11px;background:var(--goldSoft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px;}
-.feature-card h3{font-size:1rem;font-weight:600;margin-bottom:8px;}
-.feature-card p{font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300;}
-
-/* FAQ */
-.faq{position:relative;}
-.faq .orb-gold{top:-80px;right:-60px;}
-.faq-list{max-width:720px;margin:48px auto 0;}
-.faq-item{border-bottom:1px solid rgba(255,255,255,.06);overflow:hidden;}
-.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 0;background:none;border:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;text-align:left;gap:16px;transition:color .2s;}
-.faq-q:hover{color:var(--gold);}
-.faq-q .faq-arrow{width:24px;height:24px;border-radius:6px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;font-size:12px;color:var(--muted);}
-.faq-item.open .faq-arrow{background:var(--goldSoft);color:var(--gold);transform:rotate(180deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;padding:0;}
-.faq-item.open .faq-a{max-height:400px;padding:0 0 20px 0;}
-.faq-a p{color:var(--muted);font-size:.9rem;line-height:1.7;font-weight:300;}
-
-/* DOWNLOAD */
-.download{position:relative;}
-.download .orb-blue{top:-60px;right:-40px;}
-.download-box{background:linear-gradient(135deg,var(--navy2),var(--navy3));border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:56px 48px;text-align:center;position:relative;z-index:1;overflow:hidden;}
-.download-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(200,148,26,.06),transparent 50%);pointer-events:none;}
-.download-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:36px;}
-.dl-btn{display:flex;align-items:center;gap:14px;padding:16px 32px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);text-decoration:none;color:var(--text);transition:all .25s ease;min-width:220px;}
-.dl-btn:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3);border-color:var(--gold);}
-.dl-btn svg{width:28px;height:28px;flex-shrink:0;}
-.dl-btn-text{text-align:left;}
-.dl-btn-text small{font-size:.65rem;color:var(--muted);display:block;font-weight:400;}
-.dl-btn-text strong{font-size:1rem;font-weight:600;}
-.dl-web{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:var(--gold);font-size:.85rem;font-weight:500;text-decoration:none;padding:8px 0;border-bottom:1px solid transparent;transition:all .2s;}
-.dl-web:hover{border-bottom-color:var(--gold);}
-
-footer{border-top:1px solid rgba(255,255,255,.06);padding:32px 0;text-align:center;color:var(--muted);font-size:.8rem;}
-
-@media(max-width:768px){
-  .hero-grid{grid-template-columns:1fr;text-align:center;gap:40px;}
-  .hero-content{max-width:100%;}
-  .hero-buttons{justify-content:center;}
-  .phone-wrap{order:-1;}
-  .phone{width:200px;height:400px;}
-  .phone::before{width:60px;height:16px;top:8px;}
-  .phone-screen{inset:6px;border-radius:24px;}
-  .phone-ui{padding:28px 10px 10px;}
-  .phone-ui .ph-title{font-size:12px;}
-  .phone-ui .ph-stat-val{font-size:13px;}
-  .features-grid{grid-template-columns:1fr;gap:14px;}
-  section{padding:60px 0;}
-  .download-box{padding:36px 24px;}
-  .dl-btn{min-width:auto;flex:1;}
-}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fade-up{animation:fadeUp .7s ease both}.fade-up-d1{animation:fadeUp .7s ease .12s both}.fade-up-d2{animation:fadeUp .7s ease .24s both}.fade-up-d3{animation:fadeUp .7s ease .36s both}
+.container{max-width:1120px;margin:0 auto;padding:0 28px}
+section{padding:100px 0}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.orb-amber{background:var(--amber);width:350px;height:350px;opacity:.05}
+.orb-blue{background:#3B82F6;width:280px;height:280px;opacity:.03}
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:60px 0}
+.hero .orb-amber{top:-80px;right:-120px}.hero .orb-blue{bottom:5%;left:-100px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;position:relative;z-index:1}
+.hero-content{max-width:560px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:24px;background:var(--amberSoft);border:1px solid rgba(245,158,11,.2);color:var(--amber);font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:28px}
+.hero-badge span{width:6px;height:6px;border-radius:3px;background:var(--amber);animation:float 2s ease-in-out infinite}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;line-height:1.08;margin-bottom:24px;letter-spacing:-.03em;color:#F8FAFC}
+.hero h1 .accent{background:linear-gradient(135deg,var(--amber),var(--amber2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.1rem;line-height:1.7;color:var(--muted);margin-bottom:40px;font-weight:400;max-width:480px}
+.hero-buttons{display:flex;gap:14px;flex-wrap:wrap}
+.phone-wrap{display:flex;justify-content:center;animation:float 6s ease-in-out infinite}
+.phone{width:280px;height:560px;border-radius:40px;background:var(--slate2);border:2px solid rgba(255,255,255,.08);box-shadow:0 50px 100px rgba(0,0,0,.4),0 0 80px rgba(245,158,11,.06);overflow:hidden;position:relative}
+.phone::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:var(--slate);border-radius:14px;z-index:3}
+.phone-screen{position:absolute;inset:8px;border-radius:34px;overflow:hidden;background:var(--bg)}
+.phone-ui{padding:42px 14px 14px;height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;color:#0F172A}
+.ph-label{font-size:9px;color:var(--amber);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:4}
+.ph-label span{width:5px;height:5px;border-radius:3px;background:var(--amber)}
+.ph-title{font-size:15px;font-weight:800;color:#0F172A;margin-bottom:3px;letter-spacing:-.02em}
+.ph-sub{font-size:9px;color:#64748B;margin-bottom:14px}
+.ph-stats{display:flex;gap:6px;margin-bottom:10px}
+.ph-stat{flex:1;background:#fff;border-radius:10px;padding:8px 7px;border:1px solid #E2E8F0}
+.ph-stat-label{font-size:7px;color:#64748B;text-transform:uppercase;letter-spacing:.3px;font-weight:600}
+.ph-stat-val{font-size:18px;font-weight:800;line-height:1;margin-top:2px;letter-spacing:-.02em}
+.ph-chart{background:#fff;border-radius:10px;padding:8px;border:1px solid #E2E8F0;margin-bottom:8px}
+.ph-chart-title{font-size:8px;font-weight:600;color:#64748B;margin-bottom:6px}
+.ph-bars{display:flex;align-items:flex-end;gap:3;height:40px}
+.ph-bar{flex:1;border-radius:3px 3px 1px 1px;min-height:3px}
+.ph-nav{position:absolute;bottom:8px;left:8px;right:8px;background:#fff;border-radius:0 0 26px 26px;display:flex;padding:6px 0;border-top:1px solid #E2E8F0}
+.ph-nav-item{flex:1;text-align:center;font-size:12px;color:#94A3B8}.ph-nav-item.active{color:#0F172A}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s ease}
+.btn-primary{background:linear-gradient(135deg,var(--amber),var(--amber2));color:var(--slate);box-shadow:0 4px 20px rgba(245,158,11,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,158,11,.35)}
+.btn-secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px)}
+.btn-secondary:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.btn-icon{width:18px;height:18px}
+.features{background:var(--slate2);position:relative}.features .orb-amber{bottom:-100px;left:-80px}
+.section-label{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;margin-bottom:16px;line-height:1.15;letter-spacing:-.02em;color:#F8FAFC}
+.section-desc{color:var(--muted);font-size:1.05rem;line-height:1.7;max-width:560px;font-weight:400}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
+.feature-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px 24px;transition:all .25s ease}
+.feature-card:hover{background:rgba(255,255,255,.06);border-color:rgba(245,158,11,.15);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.15)}
+.feature-icon{width:44px;height:44px;border-radius:11px;background:var(--amberSoft);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:20px}
+.feature-card h3{font-size:1rem;font-weight:700;margin-bottom:8px;color:#F8FAFC}
+.feature-card p{font-size:.88rem;color:var(--muted);line-height:1.65;font-weight:400}
+.faq{position:relative}.faq .orb-amber{top:-80px;right:-60px}
+.faq-list{max-width:760px;margin:52px auto 0}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.06)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 0;background:none;border:none;color:var(--text);font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;text-align:left;gap:16px;transition:color .2s}
+.faq-q:hover{color:var(--amber)}
+.faq-q .faq-arrow{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;font-size:12px;color:var(--muted)}
+.faq-item.open .faq-arrow{background:var(--amberSoft);color:var(--amber);transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;padding:0}
+.faq-item.open .faq-a{max-height:400px;padding:0 0 20px 0}
+.faq-a p{color:var(--muted);font-size:.92rem;line-height:1.7;font-weight:400}
+.download{position:relative}.download .orb-blue{top:-60px;right:-40px}
+.download-box{background:linear-gradient(135deg,var(--slate2),var(--slate3));border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:60px 48px;text-align:center;position:relative;z-index:1;overflow:hidden}
+.download-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(245,158,11,.06),transparent 50%);pointer-events:none}
+.download-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+.dl-btn{display:flex;align-items:center;gap:14px;padding:16px 32px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);text-decoration:none;color:var(--text);transition:all .2s;min-width:220px}
+.dl-btn:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.2);border-color:var(--amber)}
+.dl-btn svg{width:28px;height:28px;flex-shrink:0}
+.dl-btn-text{text-align:left}.dl-btn-text small{font-size:.65rem;color:var(--muted);display:block;font-weight:400}.dl-btn-text strong{font-size:1rem;font-weight:600}
+.dl-web{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:var(--amber);font-size:.88rem;font-weight:500;text-decoration:none;padding:8px 0;border-bottom:1px solid transparent;transition:all .2s}
+.dl-web:hover{border-bottom-color:var(--amber)}
+footer{border-top:1px solid rgba(255,255,255,.06);padding:36px 0;text-align:center;color:var(--muted);font-size:.82rem}
+@media(max-width:768px){.hero-grid{grid-template-columns:1fr;text-align:center;gap:48px}.hero-content{max-width:100%}.hero p{max-width:100%}.hero-buttons{justify-content:center}.phone-wrap{order:-1}.phone{width:220px;height:440px}.phone::before{width:68px;height:18px;top:10px}.phone-screen{inset:6px;border-radius:28px}.phone-ui{padding:32px 10px 10px}.ph-title{font-size:13px}.ph-stat-val{font-size:14px}.features-grid{grid-template-columns:1fr;gap:12px}section{padding:72px 0}.download-box{padding:40px 24px}.dl-btn{min-width:auto;flex:1}}
 </style>
 </head>
 <body>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="orb orb-gold"></div>
-  <div class="orb orb-blue"></div>
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <div class="hero-badge fade-up">◆ Application gratuite</div>
-        <h1 class="fade-up-d1">Gérez vos publications<br><span class="gold">simplement.</span></h1>
-        <p class="fade-up-d2">Stock, inventaire mensuel, commandes intelligentes, demandes spéciales et gestion multi-assemblées — tout dans une seule application conçue pour les préposés aux publications.</p>
-        <div class="hero-buttons fade-up-d3">
-          <a href="#telecharger" class="btn btn-primary">
-            <svg class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>
-            Télécharger
-          </a>
-          <a href="https://inventory-jw.vercel.app" class="btn btn-secondary" target="_blank">
-            <svg class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-            Ouvrir en ligne
-          </a>
-        </div>
-      </div>
-      <div class="phone-wrap fade-up-d2">
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="phone-ui">
-              <div class="ph-header">◆ INVENTORY</div>
-              <div class="ph-title">Calavi-Aledjo</div>
-              <div class="ph-sub">Cotonou · Djlo · Responsable</div>
-              <div class="ph-stats">
-                <div class="ph-stat"><div class="ph-stat-label">Stock total</div><div class="ph-stat-val" style="color:#1B2D4F;">247</div></div>
-                <div class="ph-stat"><div class="ph-stat-label">Alertes</div><div class="ph-stat-val" style="color:#C0392B;">3</div></div>
-              </div>
-              <div class="ph-stats">
-                <div class="ph-stat"><div class="ph-stat-label">Sorties</div><div class="ph-stat-val" style="color:#C8941A;">42</div></div>
-                <div class="ph-stat"><div class="ph-stat-label">Reçus</div><div class="ph-stat-val" style="color:#1B2D4F;">18</div></div>
-              </div>
-              <div style="font-size:8px;font-weight:600;color:#1C1C2E;margin:8px 0 5px;">⚠ Alertes stock</div>
-              <div class="ph-alert"><div class="ph-alert-dot" style="background:#E07B39;"></div><div class="ph-alert-text">Vivez pour toujours ! (lff)</div><div class="ph-alert-val" style="color:#E07B39;">2</div></div>
-              <div class="ph-alert"><div class="ph-alert-dot" style="background:#C0392B;"></div><div class="ph-alert-text">Invitation réunions (inv)</div><div class="ph-alert-val" style="color:#C0392B;">0</div></div>
-              <div class="ph-nav">
-                <div class="ph-nav-item active">⌂</div>
-                <div class="ph-nav-item">▣</div>
-                <div class="ph-nav-item">⇅</div>
-                <div class="ph-nav-item">▦</div>
-                <div class="ph-nav-item">☆</div>
-                <div class="ph-nav-item">▤</div>
-                <div class="ph-nav-item">⚙</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features">
-  <div class="orb orb-gold"></div>
-  <div class="container">
-    <div class="section-label fade-up">Fonctionnalités</div>
-    <div class="section-title fade-up-d1">Tout ce dont le préposé a besoin</div>
-    <div class="section-desc fade-up-d2">Conçu pour une transition facile du manuel au numérique. Chaque assemblée locale gère ses propres données en toute autonomie.</div>
-    <div class="features-grid">
-      <div class="feature-card fade-up">
-        <div class="feature-icon">📦</div>
-        <h3>Gestion du stock</h3>
-        <p>Entrées et sorties en temps réel. Le stock se calcule automatiquement. Alertes quand une publication est presque épuisée ou en rupture.</p>
-      </div>
-      <div class="feature-card fade-up-d1">
-        <div class="feature-icon">📋</div>
-        <h3>Inventaire mensuel</h3>
-        <p>Génération automatique de l'état mensuel avec export PDF : stock initial, entrées, sorties, stock actuel. Les articles à zéro sont automatiquement exclus.</p>
-      </div>
-      <div class="feature-card fade-up-d2">
-        <div class="feature-icon">🛒</div>
-        <h3>Commandes intelligentes</h3>
-        <p>Le système analyse votre stock et vos sorties pour suggérer automatiquement les publications à commander, y compris les articles hors base. Ajustez et validez.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">⭐</div>
-        <h3>Demandes spéciales</h3>
-        <p>Enregistrez les demandes des proclamateurs — articles existants ou hors base. Suivi complet : en attente, commandé, reçu.</p>
-      </div>
-      <div class="feature-card fade-up-d1">
-        <div class="feature-icon">🔄</div>
-        <h3>Inter-assemblées</h3>
-        <p>Envoyez et recevez des demandes de publications entre assemblées. Acceptez, refusez avec motif, et intégrez dans vos commandes.</p>
-      </div>
-      <div class="feature-card fade-up-d2">
-        <div class="feature-icon">👥</div>
-        <h3>Multi-utilisateurs</h3>
-        <p>Chaque membre a son compte avec rôle et permissions personnalisables. Préposé, responsable, adjoint ou assistant.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🛡️</div>
-        <h3>Super Admin</h3>
-        <p>Tableau de bord global de toutes les assemblées. Créez des assemblées, gérez les membres et les accès depuis un seul compte.</p>
-      </div>
-      <div class="feature-card fade-up-d1">
-        <div class="feature-icon">📊</div>
-        <h3>Analytics & IA</h3>
-        <p>Top publications, tendances sur 6 mois, suggestions de commande, alertes sur les demandes fréquentes. L'IA vous aide à anticiper.</p>
-      </div>
-      <div class="feature-card fade-up-d2">
-        <div class="feature-icon">📱</div>
-        <h3>PWA & mobile</h3>
-        <p>Installable sur Android et iPhone. Données synchronisées via Supabase. Accès protégé par PIN avec réinitialisation possible.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="faq" id="faq">
-  <div class="orb orb-gold"></div>
-  <div class="container">
-    <div style="text-align:center;">
-      <div class="section-label fade-up">FAQ</div>
-      <div class="section-title fade-up-d1">Questions fréquentes</div>
-      <div class="section-desc fade-up-d2" style="margin:0 auto;">Tout ce que vous devez savoir pour bien démarrer avec Inventory.</div>
-    </div>
-    <div class="faq-list fade-up-d3">
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment créer un compte pour mon assemblée ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Ouvrez l'application et cliquez « Créer un compte ». Renseignez le nom et le numéro de votre assemblée (format XX0000, ex : AL2261), puis créez votre profil avec un nom d'utilisateur et un code PIN à 4 chiffres. Si l'assemblée existe déjà, votre compte sera rattaché automatiquement.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment ajouter d'autres membres de mon équipe ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Allez dans Réglages → onglet Membres → « + Ajouter ». Renseignez le prénom, nom, nom d'utilisateur, code PIN et rôle. Vous pouvez aussi gérer les permissions individuelles dans l'onglet Accès.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Quels sont les différents rôles disponibles ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>4 rôles : Préposé, Responsable de la prédication et Adjoint ont tous les accès. L'Assistant peut voir le stock, enregistrer des mouvements et consulter l'inventaire mais ne peut pas modifier le stock ou gérer les membres. Chaque permission peut être personnalisée individuellement.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment enregistrer une entrée ou sortie ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Onglet Mouvement (⇅) → choisissez Sortie ou Réception → recherchez la publication → indiquez quantité, date, langue et éventuellement le proclamateur → validez. Le stock est mis à jour automatiquement.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment exporter l'inventaire mensuel en PDF ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Onglet Inventaire (▤) → sélectionnez le mois → le tableau affiche stock initial, entrées, sorties et stock actuel. Les articles à zéro sont automatiquement masqués. Cliquez « 📄 PDF » pour exporter et partager.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment fonctionne la commande intelligente ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Commandes → « Générer la commande ». Le système analyse vos seuils, sorties mensuelles, demandes spéciales et demandes inter-assemblées acceptées pour générer une liste. Vous pouvez ajuster les quantités, ajouter des articles existants ou hors base, puis sauvegarder et exporter en PDF.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment demander des publications à une autre assemblée ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Commandes → Inter-assemblée → « Demander à une autre assemblée ». Sélectionnez l'assemblée, la publication et la quantité. L'autre assemblée reçoit la demande et peut l'accepter ou la refuser avec un motif. Les demandes acceptées s'intègrent dans votre prochaine commande.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>J'ai oublié mon code PIN, que faire ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Sur l'écran de connexion → « 🔑 PIN oublié ? ». Entrez votre nom d'utilisateur, un nouveau PIN à 4 chiffres et le numéro de votre assemblée comme vérification. Si les informations correspondent, votre PIN sera réinitialisé.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Les données sont-elles partagées entre assemblées ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Non. Chaque assemblée est totalement isolée. Les membres ne voient que les données de leur propre assemblée. Seul le compte Super Admin peut consulter toutes les assemblées.</p></div></div>
-      <div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment installer l'app sur mon téléphone ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p><strong>Android :</strong> Ouvrez l'URL dans Chrome → menu ⋮ → « Installer l'application ». <strong>iPhone :</strong> Ouvrez dans Safari → icône de partage → « Sur l'écran d'accueil ». L'app se lance ensuite en plein écran comme une vraie application.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- DOWNLOAD -->
-<section class="download" id="telecharger">
-  <div class="orb orb-blue"></div>
-  <div class="container">
-    <div class="download-box">
-      <div class="section-label">Télécharger</div>
-      <div class="section-title">Disponible sur vos appareils</div>
-      <p style="color:var(--muted);font-size:.95rem;line-height:1.7;max-width:480px;margin:0 auto;font-weight:300;">Installez Inventory et commencez à gérer vos publications dès aujourd'hui. Gratuit, sans publicité, sans abonnement.</p>
-      <div class="download-buttons">
-        <a href="./downloads/inventory.apk" class="dl-btn" download>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341a.733.733 0 01-.738.738.724.724 0 01-.531-.222.724.724 0 01-.222-.531V9.479c0-.207.074-.384.222-.531a.724.724 0 01.531-.222c.207 0 .384.074.531.222a.724.724 0 01.222.531v5.847a.06.06 0 01-.015.015zm-10.308 0a.733.733 0 01-.738.738.724.724 0 01-.531-.222.724.724 0 01-.222-.531V9.479c0-.207.074-.384.222-.531a.724.724 0 01.531-.222c.207 0 .384.074.531.222a.724.724 0 01.222.531v5.847a.06.06 0 01-.015.015zM14.4 3.763l1.064-1.87a.196.196 0 00-.074-.281.196.196 0 00-.281.074l-1.079 1.9A6.095 6.095 0 0012 3.19c-.725 0-1.406.133-2.03.396l-1.079-1.9a.196.196 0 00-.281-.074.196.196 0 00-.074.281L9.6 3.763C7.886 4.63 6.66 6.16 6.378 7.984h11.244C17.34 6.16 16.114 4.63 14.4 3.763zM9.87 6.246a.476.476 0 01-.349-.147.476.476 0 01-.147-.349c0-.133.049-.251.147-.349a.476.476 0 01.349-.147c.133 0 .251.049.349.147a.476.476 0 01.147.349.476.476 0 01-.147.349.476.476 0 01-.349.147zm4.26 0a.476.476 0 01-.349-.147.476.476 0 01-.147-.349c0-.133.049-.251.147-.349a.476.476 0 01.349-.147c.133 0 .251.049.349.147a.476.476 0 01.147.349.476.476 0 01-.147.349.476.476 0 01-.349.147zM6.378 8.725v8.1c0 .414.147.768.44 1.061.294.294.647.44 1.061.44h.738v2.696c0 .207.074.384.222.531a.724.724 0 00.531.222c.207 0 .384-.074.531-.222a.724.724 0 00.222-.531v-2.696h1.754v2.696c0 .207.074.384.222.531a.724.724 0 00.531.222c.207 0 .384-.074.531-.222a.724.724 0 00.222-.531v-2.696h.738c.414 0 .768-.147 1.061-.44.294-.294.44-.647.44-1.061v-8.1H6.378z"/></svg>
-          <div class="dl-btn-text"><small>Télécharger pour</small><strong>Android</strong></div>
-        </a>
-        <a href="./downloads/inventory.ipa" class="dl-btn" download>
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <div class="dl-btn-text"><small>Télécharger pour</small><strong>iPhone / iPad</strong></div>
-        </a>
-      </div>
-      <a href="https://inventory-jw.vercel.app" class="dl-web" target="_blank">Ou utiliser directement dans le navigateur →</a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <p style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:600;">◆ INVENTORY</span><span style="opacity:.5;margin:0 6px;">·</span>Gestion des publications</p>
-    <p style="opacity:.5;font-size:.72rem;">Conçu avec soin et gratuitement pour les assemblées · 2026</p>
-  </div>
-</footer>
-
-<script>
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.animationPlayState='running';obs.unobserve(e.target);}});},{threshold:.15});
-document.querySelectorAll('[class*="fade-up"]').forEach(el=>{el.style.animationPlayState='paused';obs.observe(el);});
-</script>
+<section class="hero"><div class="orb orb-amber"></div><div class="orb orb-blue"></div><div class="container"><div class="hero-grid"><div class="hero-content"><div class="hero-badge fade-up"><span></span> Application gratuite</div><h1 class="fade-up-d1">Gérez vos publications<br><span class="accent">simplement.</span></h1><p class="fade-up-d2">Stock, inventaire, commandes intelligentes, demandes spéciales et gestion multi-assemblées — tout dans une seule application conçue pour les préposés.</p><div class="hero-buttons fade-up-d3"><a href="#telecharger" class="btn btn-primary"><svg class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3"/></svg>Télécharger</a><a href="https://inventory-jwpub.vercel.app" class="btn btn-secondary" target="_blank"><svg class="btn-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>Ouvrir en ligne</a></div></div><div class="phone-wrap fade-up-d2"><div class="phone"><div class="phone-screen"><div class="phone-ui"><div class="ph-label"><span></span> INVENTORY</div><div class="ph-title">Bienvenue, Djlo</div><div class="ph-sub">Calavi-Aledjo · Responsable</div><div class="ph-stats"><div class="ph-stat"><div class="ph-stat-label">Stock</div><div class="ph-stat-val" style="color:#0F172A">247</div></div><div class="ph-stat"><div class="ph-stat-label">Sorties</div><div class="ph-stat-val" style="color:#D97706">42</div></div><div class="ph-stat"><div class="ph-stat-label">Alertes</div><div class="ph-stat-val" style="color:#DC2626">3</div></div></div><div class="ph-chart"><div class="ph-chart-title">Activité 6 mois</div><div class="ph-bars"><div class="ph-bar" style="height:35%;background:#F59E0B"></div><div class="ph-bar" style="height:18%;background:#059669"></div><div class="ph-bar" style="height:55%;background:#F59E0B"></div><div class="ph-bar" style="height:28%;background:#059669"></div><div class="ph-bar" style="height:70%;background:#F59E0B"></div><div class="ph-bar" style="height:40%;background:#059669"></div><div class="ph-bar" style="height:85%;background:#F59E0B"></div><div class="ph-bar" style="height:50%;background:#059669"></div><div class="ph-bar" style="height:65%;background:#F59E0B"></div><div class="ph-bar" style="height:35%;background:#059669"></div><div class="ph-bar" style="height:90%;background:#F59E0B"></div><div class="ph-bar" style="height:55%;background:#059669"></div></div></div><div style="font-size:8px;font-weight:700;color:#0F172A;margin:6px 0 4px">⚠ Alertes stock</div><div style="background:#FEF2F2;border:1px solid rgba(220,38,38,.15);border-radius:8px;padding:6px 8px;display:flex;align-items:center;gap:6px;margin-bottom:4px"><div style="width:5px;height:5px;border-radius:3px;background:#DC2626"></div><div style="font-size:8px;color:#0F172A;font-weight:500;flex:1">Invitation réunions</div><div style="font-size:11px;font-weight:800;color:#DC2626">0</div></div><div class="ph-nav"><div class="ph-nav-item active">◫</div><div class="ph-nav-item">▦</div><div class="ph-nav-item">⇅</div><div class="ph-nav-item">☰</div><div class="ph-nav-item">✦</div><div class="ph-nav-item">▤</div><div class="ph-nav-item">⚙</div></div></div></div></div></div></div></div></section>
+<section class="features"><div class="orb orb-amber"></div><div class="container"><div class="section-label fade-up">Fonctionnalités</div><div class="section-title fade-up-d1">Tout ce dont le préposé a besoin</div><div class="section-desc fade-up-d2">Conçu pour une transition facile du manuel au numérique. Chaque assemblée gère ses données en toute autonomie.</div><div class="features-grid"><div class="feature-card fade-up"><div class="feature-icon">📦</div><h3>Gestion du stock</h3><p>Entrées, sorties et arrivages en temps réel avec import Excel. Alertes automatiques quand une publication est en rupture.</p></div><div class="feature-card fade-up-d1"><div class="feature-icon">📋</div><h3>Inventaire mensuel</h3><p>Génération automatique avec export PDF. Stock initial, entrées, sorties, stock actuel. Articles archivés masqués.</p></div><div class="feature-card fade-up-d2"><div class="feature-icon">🛒</div><h3>Commandes intelligentes</h3><p>Analyse du stock et des sorties pour générer automatiquement la liste des publications à commander.</p></div><div class="feature-card fade-up"><div class="feature-icon">⭐</div><h3>Demandes spéciales</h3><p>Enregistrez les demandes des proclamateurs — articles existants ou hors base. Suivi complet du statut.</p></div><div class="feature-card fade-up-d1"><div class="feature-icon">🔄</div><h3>Inter-assemblées</h3><p>Envoyez et recevez des demandes entre assemblées. Acceptation, refus avec motif, intégration dans les commandes.</p></div><div class="feature-card fade-up-d2"><div class="feature-icon">👥</div><h3>Multi-utilisateurs</h3><p>Comptes avec rôles et permissions personnalisables. Préposé, responsable, adjoint ou assistant.</p></div><div class="feature-card fade-up"><div class="feature-icon">🛡️</div><h3>Super Admin</h3><p>Tableau de bord global, gestion des assemblées, des membres et des publications depuis un seul compte.</p></div><div class="feature-card fade-up-d1"><div class="feature-icon">📊</div><h3>Analytics & IA</h3><p>Graphiques de tendances, top publications, suggestions de commande, alertes sur les demandes fréquentes.</p></div><div class="feature-card fade-up-d2"><div class="feature-icon">📱</div><h3>PWA & mobile</h3><p>Installable sur Android et iPhone. Données synchronisées. Accès protégé par PIN avec réinitialisation.</p></div></div></div></section>
+<section class="faq" id="faq"><div class="orb orb-amber"></div><div class="container"><div style="text-align:center"><div class="section-label fade-up">FAQ</div><div class="section-title fade-up-d1">Questions fréquentes</div><div class="section-desc fade-up-d2" style="margin:0 auto">Tout ce que vous devez savoir pour démarrer avec Inventory.</div></div><div class="faq-list fade-up-d3"><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment créer un compte pour mon assemblée ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Ouvrez l'application et cliquez « Créer un compte ». Renseignez le nom et le numéro de votre assemblée (format XX0000), puis créez votre profil avec un nom d'utilisateur et un code PIN à 4 chiffres.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment ajouter d'autres membres ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Réglages → Membres → « + Ajouter ». Renseignez prénom, nom, nom d'utilisateur, code PIN et rôle. Les permissions se gèrent dans l'onglet Accès.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment enregistrer un arrivage ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Mouvements → Arrivage. Entrez le numéro de packing list, ajoutez les articles manuellement ou via import Excel. Un modèle téléchargeable est disponible.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment gérer les revues et cahiers périodiques ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Stock → Revues ou Cahiers → « + Nouveau numéro ». Les anciens numéros s'archivent automatiquement quand le stock atteint 0, ou manuellement.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment exporter l'inventaire en PDF ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Inventaire → sélectionnez le mois → « 📄 PDF ». Les articles archivés sont masqués automatiquement.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment fonctionne la commande intelligente ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Commandes → « Générer ». Le système analyse seuils, sorties, demandes spéciales et inter-assemblées pour proposer une liste ajustable, exportable en PDF.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>J'ai oublié mon code PIN ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Écran connexion → « PIN oublié ? ». Entrez nom d'utilisateur, nouveau PIN et numéro assemblée pour vérification.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Les données sont-elles partagées entre assemblées ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Non. Chaque assemblée est isolée. Seul le Super Admin peut consulter toutes les assemblées.</p></div></div><div class="faq-item"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>Comment installer l'app sur mobile ?</span><span class="faq-arrow">▼</span></button><div class="faq-a"><p>Android : Chrome → ⋮ → « Installer ». iPhone : Safari → partage → « Écran d'accueil ».</p></div></div></div></div></section>
+<section class="download" id="telecharger"><div class="orb orb-blue"></div><div class="container"><div class="download-box"><div class="section-label">Télécharger</div><div class="section-title">Disponible sur vos appareils</div><p style="color:var(--muted);font-size:.98rem;line-height:1.7;max-width:500px;margin:0 auto;font-weight:400">Installez Inventory et commencez à gérer vos publications. Gratuit, sans publicité.</p><div class="download-buttons"><a href="./downloads/inventory.apk" class="dl-btn" download><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341a.733.733 0 01-.738.738.724.724 0 01-.531-.222.724.724 0 01-.222-.531V9.479c0-.207.074-.384.222-.531a.724.724 0 01.531-.222c.207 0 .384.074.531.222a.724.724 0 01.222.531v5.847a.06.06 0 01-.015.015zm-10.308 0a.733.733 0 01-.738.738.724.724 0 01-.531-.222.724.724 0 01-.222-.531V9.479c0-.207.074-.384.222-.531a.724.724 0 01.531-.222c.207 0 .384.074.531.222a.724.724 0 01.222.531v5.847a.06.06 0 01-.015.015zM14.4 3.763l1.064-1.87a.196.196 0 00-.074-.281.196.196 0 00-.281.074l-1.079 1.9A6.095 6.095 0 0012 3.19c-.725 0-1.406.133-2.03.396l-1.079-1.9a.196.196 0 00-.281-.074.196.196 0 00-.074.281L9.6 3.763C7.886 4.63 6.66 6.16 6.378 7.984h11.244C17.34 6.16 16.114 4.63 14.4 3.763z"/></svg><div class="dl-btn-text"><small>Télécharger pour</small><strong>Android</strong></div></a><a href="./downloads/inventory.ipa" class="dl-btn" download><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg><div class="dl-btn-text"><small>Télécharger pour</small><strong>iPhone / iPad</strong></div></a></div><a href="https://inventory-jwpub.vercel.app" class="dl-web" target="_blank">Ou utiliser directement dans le navigateur →</a></div></div></section>
+<footer><div class="container"><p style="margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:8px"><span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#F59E0B,#EAB308);color:#fff;font-size:10px;font-weight:800">I</span><span style="font-weight:600;color:#CBD5E1">Inventory</span><span style="opacity:.3">·</span><span>Gestion des publications</span></p><p style="opacity:.4;font-size:.72rem">Conçu avec soin pour les assemblées · 2026</p></div></footer>
+<script>const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.animationPlayState='running';obs.unobserve(e.target);}});},{threshold:.15});document.querySelectorAll('[class*="fade-up"]').forEach(el=>{el.style.animationPlayState='paused';obs.observe(el);});</script>
 </body>
 </html>
